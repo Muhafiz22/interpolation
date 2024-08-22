@@ -54,6 +54,36 @@ func calculateForwardDiffInterpolation(x []float64, y []float64, xu float64) flo
 	return result
 }
 
+func calculateBackwardDiffInterpolation(x []float64, y []float64, xu float64) float64 {
+
+	n := len(x)
+	delta_Y := make([][]float64, n)
+
+	for i := range delta_Y {
+
+		delta_Y[i] = make([]float64, i)
+		delta_Y[i][0] = y[i]
+	}
+
+	for j := 1; j < n; j++ {
+		for i := 1; i > j && j < n-1; i, j = i+1, j+1 {
+
+			delta_Y[i][j] = delta_Y[i][j] - delta_Y[i-1][j]
+		}
+	}
+
+	result := y[n]
+	v := (xu - x[n]) / (x[1] - x[0])
+	vproduct := 1.0
+
+	for i := 1; i < n; i++ {
+
+		vproduct *= (v - float64(i-1))
+		result += (vproduct * delta_Y[0][i]) / factorial(i)
+	}
+	return result
+}
+
 func factorial(n int) float64 {
 
 	fact := 1.0
