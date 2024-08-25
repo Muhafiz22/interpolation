@@ -7,10 +7,10 @@ import (
 
 func TestMain(t *testing.T) {
 
-	r := []float64{1891, 1901, 1911, 1921, 1931}
+	var input_x []float32 = []float32{0.1, 0.2, 0.3, 0.4, 0.5}
 
-	s := []float64{46, 66, 81, 93, 101}
-	err, _, _ := validateInput(r, s)
+	var input_y []float32 = []float32{1.1052, 1.2214, 1.3499, 1.4918, 1.6487}
+	err, _, _ := validateInput(input_x, input_y)
 
 	if err != nil {
 		fmt.Println(err)
@@ -20,10 +20,10 @@ func TestMain(t *testing.T) {
 
 func TestCheckForward(t *testing.T) {
 
-	r := []float64{1891, 1901, 1911, 1921, 1931}
+	var input_x []float32 = []float32{40, 50, 60, 70, 80}
 
-	var p float64 = 1925.0
-	c := checkForward(r, p)
+	var input_xu float32 = 45.0
+	c := checkForward(input_x, input_xu)
 
 	if c {
 		fmt.Println("use forward")
@@ -34,24 +34,41 @@ func TestCheckForward(t *testing.T) {
 
 func TestCalculateForwardDiffInterpolation(t *testing.T) {
 
-	x := []float64{45, 50, 55, 60}
-	y := []float64{0.7071, 0.7660, 0.8192, 0.8660}
+	var input_x []float32 = []float32{0.1, 0.2, 0.3, 0.4, 0.5}
+	var input_y []float32 = []float32{1.1052, 1.2214, 1.3499, 1.4918, 1.6487}
 
-	xu := 52.0
+	var input_xu float32 = 0.25
 
-	d := calculateForwardDiffInterpolation(x, y, xu)
-	fmt.Println(d)
+	reality := calculateForwardDiffInterpolation(input_x, input_y, input_xu)
+	fmt.Println(reality)
+	var expected float32 = 1.283183
+
+	if expected != reality {
+		t.Fatal()
+	}
 
 }
 
-func TestcalculateBackwardDiffInterpolation(t *testing.T) {
+func TestCalculateBackwardDiffInterpolation(t *testing.T) {
 
-	x := []float64{1891, 1901, 1911, 1921, 1931}
-	y := []float64{46, 66, 81, 93, 101}
+	var input_x []float32 = []float32{1891, 1901, 1911, 1921, 1931}
+	var input_y []float32 = []float32{46, 66, 81, 93, 101}
 
-	xu := 1925.0
+	var input_xu float32 = 1925.0
 
-	e := calculateBackwardDiffInterpolation(x, y, xu)
-	fmt.Println(e)
+	c := checkForward(input_x, input_xu)
+	if c {
+		fmt.Println("use forward")
+	} else {
+		fmt.Println("use backward")
+	}
+
+	reality := calculateBackwardDiffInterpolation(input_x, input_y, input_xu)
+	fmt.Println(reality)
+	var expected float32 = 96.8368
+
+	if expected != reality {
+		t.Fatal()
+	}
 
 }
