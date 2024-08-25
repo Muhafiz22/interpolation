@@ -79,6 +79,7 @@ func (data *MyData) getAproxValue(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// TODO: add validation if len(x) == len(y)
 func (data *MyData) processData(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.New("data").Parse("{{ . }}"))
 	tmpl.Execute(w, data)
