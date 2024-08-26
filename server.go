@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"html/template"
 	"net/http"
 	"strconv"
@@ -97,18 +98,23 @@ func (data *MyData) getTable(w http.ResponseWriter, r *http.Request) {
 }
 
 // TODO: add validation if len(x) == len(y)
+// add validation for data
 func (data *MyData) processData(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.New("data").Parse("{{ . }}"))
 	yx, table := calculateBackwardDiffInterpolation(data.X, data.Y, data.ApproxValue)
-	data.MatrixTable = table
-	data.Terms = pushIter(len(data.X))
-	tmpl.Execute(w, yx)
+	if data.Err != nil {
+		w.Write([]byte("invalid data format"))
+	} else {
+		data.MatrixTable = table
+		data.Terms = pushIter(len(data.X))
+		tmpl.Execute(w, fmt.Sprintf("f(x) = %f", yx))
+	}
 }
 
 func pushIter(len int) []int {
 	output := make([]int, len)
 	for idx := range output {
-		output[idx] = idx
+		output[idx] = idx + 1
 	}
 	return output
 }
