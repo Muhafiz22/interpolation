@@ -5,19 +5,6 @@ import (
 	"testing"
 )
 
-/*func TestMain(t *testing.T) {
-
-	var input_x []float32 = []float32{0.1, 0.2, 0.3, 0.4, 0.5}
-
-	var input_y []float32 = []float32{1.1052, 1.2214, 1.3499, 1.4918, 1.6487}
-	err, _, _ := validateInput(input_x, input_y)
-
-	if err != nil {
-		fmt.Println(err)
-	}
-
-}*/
-
 func TestCheckForward(t *testing.T) {
 
 	var input_x []float32 = []float32{40, 50, 60, 70, 80}
@@ -31,23 +18,6 @@ func TestCheckForward(t *testing.T) {
 		fmt.Println("use backward")
 	}
 }
-
-/*func TestCalculateForwardDiffInterpolation(t *testing.T) {
-
-	var input_x []float32 = []float32{0.1, 0.2, 0.3, 0.4, 0.5}
-	var input_y []float32 = []float32{1.1052, 1.2214, 1.3499, 1.4918, 1.6487}
-
-	var input_xu float32 = 0.25
-
-	reality := calculateForwardDiffInterpolation(input_x, input_y, input_xu)
-	fmt.Println(reality)
-	var expected float32 = 1.283125
-
-	if expected != reality {
-		t.Fatal()
-	}
-
-}*/
 
 func TestCalculateBackwardDiffInterpolation(t *testing.T) {
 
@@ -66,9 +36,9 @@ func TestCalculateBackwardDiffInterpolation(t *testing.T) {
 	reality := calculateBackwardDiffInterpolation(input_x, input_y, input_xu)
 	var expected float32 = 96.8368
 
+	fmt.Println("Expected:", expected)
+	fmt.Println("Reality:", reality)
 	if expected != reality {
-		fmt.Println("Expected:", expected)
-		fmt.Println("Reality:", reality)
 		t.Fatal()
 
 	}
