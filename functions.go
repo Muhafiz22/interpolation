@@ -66,18 +66,15 @@ func calculateBackwardDiffInterpolation(x []float32, y []float32, xu float32) fl
 			delta_Y[i][j] = delta_Y[i][j-1] - delta_Y[i-1][j-1]
 		}
 	}
-	fmt.Println(delta_Y)
+
 	result := y[n-1]
 	v := (xu - x[n-1]) / (x[1] - x[0])
-
-	var vproduct float32 = v
-
-	// GOTCHA: blew up
-	for i := -1; i < n-1; i++ {
-		result += (vproduct * delta_Y[n-1][i+1]) / factorial(i+1)
-		vproduct *= (v + float32(i+1))
-		fmt.Printf("vproduct-%d: %f\n", i+1, roundTilFive(float64(vproduct)))
-		fmt.Printf("result-%d: %f\n", i+1, result)
+	fmt.Println("V:", float64(v))
+	var vproduct float32 = 1.0
+	for i := 0; i < n-1; i++ {
+		vproduct *= (v + float32(i))
+		perterm := (vproduct * delta_Y[n-1][i+1]) / factorial(i+1)
+		result += perterm
 	}
 	return result
 }
