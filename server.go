@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"html/template"
 	"net/http"
 	"strconv"
@@ -9,10 +10,11 @@ import (
 )
 
 type MyData struct {
-	X           []float32 `json:"x"`
-	Y           []float32 `json:"y"`
-	ApproxValue float32   `json:"approxValue"`
-	Err         error     `json:"err"`
+	X           []float32   `json:"x"`
+	Y           []float32   `json:"y"`
+	DeltaMatrix [][]float32 `json:"deltaMatrix"`
+	ApproxValue float32     `json:"approxValue"`
+	Err         error       `json:"err"`
 }
 
 var data MyData = MyData{X: []float32{}, Y: []float32{}}
@@ -81,6 +83,14 @@ func (data *MyData) getAproxValue(w http.ResponseWriter, r *http.Request) {
 
 // TODO: add validation if len(x) == len(y)
 func (data *MyData) processData(w http.ResponseWriter, r *http.Request) {
+
 	tmpl := template.Must(template.New("data").Parse("{{ . }}"))
+
+	if len(data.X) != len(data.Y) {
+		data.Err = errors.New("Length of X and Y does not match")
+		w.Write([]byte(fmt.Sprintf("error, length of X and Y does not match")))
+
+	}
+
 	tmpl.Execute(w, data)
 }
