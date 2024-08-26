@@ -33,7 +33,7 @@ func TestCalculateBackwardDiffInterpolation(t *testing.T) {
 		fmt.Println("use backward")
 	}
 
-	reality := calculateBackwardDiffInterpolation(input_x, input_y, input_xu)
+	reality, _ := calculateBackwardDiffInterpolation(input_x, input_y, input_xu)
 	var expected float32 = 96.8368
 	fmt.Println("Reality: ", reality)
 	fmt.Println("Expected: ", expected)

@@ -1,7 +1,38 @@
-<table>
-	<tr>
-		<th>x-y</th>
-		<th>x</th>
-		<th>y</th>
-	</tr>
-</table>
+<div
+	class="flex flex-row items-center justify-center   m-auto bg-blue-200 my-2 w-fit p-5 rounded hover:p-6 ease-in-out duration-300">
+	<table class="table">
+		<tr>
+			<th class="border-2 border-black">X</th>
+		</tr>
+		{{ range .X }}
+		<tr>
+			<td class="border-2 border-black">{{ . }}</td>
+		</tr>
+		{{end}}
+	</table>
+
+	<table class="table">
+		<tr>
+			<th class="border-2 border-black">Y</th>
+		</tr>
+		{{ range .Y }}
+		<tr>
+			<td class="border-2 border-black">{{ . }}</td>
+		</tr>
+		{{end}}
+	</table>
+	<table class=" table ">
+		<tr>
+			{{ range .Terms }}
+			<th class="border-2 border-black">Delta Y{{.}}</th>
+			{{ end }}
+		</tr>
+		{{ range .MatrixTable }}
+		<tr>
+			{{ range .}}
+			<td class="border-2 border-black">{{ . }}</td>
+			{{ end }}
+		</tr>
+		{{ end }}
+	</table>
+</div>

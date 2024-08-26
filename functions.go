@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"math"
 )
 
@@ -49,7 +48,7 @@ func calculateForwardDiffInterpolation(x []float32, y []float32, xu float32) flo
 	return result
 }
 
-func calculateBackwardDiffInterpolation(x []float32, y []float32, xu float32) float32 {
+func calculateBackwardDiffInterpolation(x []float32, y []float32, xu float32) (float32, [][]float32) {
 	//
 
 	n := len(x)
@@ -68,15 +67,16 @@ func calculateBackwardDiffInterpolation(x []float32, y []float32, xu float32) fl
 	}
 
 	result := y[n-1]
+
 	v := (xu - x[n-1]) / (x[1] - x[0])
-	fmt.Println("V:", float64(v))
+
 	var vproduct float32 = 1.0
 	for i := 0; i < n-1; i++ {
 		vproduct *= (v + float32(i))
 		perterm := (vproduct * delta_Y[n-1][i+1]) / factorial(i+1)
 		result += perterm
 	}
-	return result
+	return result, delta_Y
 }
 
 func factorial(n int) float32 {
