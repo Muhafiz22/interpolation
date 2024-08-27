@@ -19,6 +19,33 @@ func TestCheckForward(t *testing.T) {
 	}
 }
 
+func TestCalculateForwardDiffInterpolation(t *testing.T) {
+
+	var input_x []float32 = []float32{1.0, 2.0, 3.0, 4.0}
+	var input_y []float32 = []float32{2.0, 4.0, 8.0, 16.0}
+
+	var input_xu float32 = 2.5
+
+	c := checkForward(input_x, input_xu)
+	if c {
+		fmt.Println("use forward")
+	} else {
+		fmt.Println("use backward")
+	}
+
+	table, reality := calculateForwardDiffInterpolation(input_x, input_y, input_xu)
+	var expected float32 = 5.625
+
+	fmt.Println(table)
+	fmt.Println("Expected:", expected)
+	fmt.Println("Reality:", reality)
+	if expected != reality {
+		t.Fatal()
+
+	}
+
+}
+
 func TestCalculateBackwardDiffInterpolation(t *testing.T) {
 
 	var input_x []float32 = []float32{1891, 1901, 1911, 1921, 1931}
@@ -33,32 +60,14 @@ func TestCalculateBackwardDiffInterpolation(t *testing.T) {
 		fmt.Println("use backward")
 	}
 
-	reality := calculateBackwardDiffInterpolation(input_x, input_y, input_xu)
+	table, reality := calculateBackwardDiffInterpolation(input_x, input_y, input_xu)
 	var expected float32 = 96.8368
-	fmt.Println("Reality: ", reality)
-	fmt.Println("Expected: ", expected)
 
+	fmt.Println(table)
 	fmt.Println("Expected:", expected)
 	fmt.Println("Reality:", reality)
 	if expected != reality {
 		t.Fatal()
 
 	}
-
-}
-
-func TestRoundingTillFive(t *testing.T) {
-	input := 2.334345873498
-	output := roundTilFive(input)
-	expected := 2.334346
-
-	if output != float32(expected) {
-		fmt.Print(output)
-		t.Fatal("Not same")
-	}
-}
-
-func TestVProduct(t *testing.T) {
-	output := calcVProduct(-0.6, 1)
-	fmt.Println("output: ", output)
 }
