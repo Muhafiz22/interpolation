@@ -15,6 +15,7 @@ type MyData struct {
 	ApproxValue float32     `json:"approxValue"`
 	Err         error       `json:"err"`
 	Terms       []int       `json:"terms"`
+	IsForward   bool        `json:"isForward"`
 }
 
 var data MyData = MyData{X: []float32{}, Y: []float32{}}
@@ -28,6 +29,7 @@ func runServer() {
 	mux.HandleFunc("/get-approx", data.getAproxValue)
 	mux.HandleFunc("/get-table", data.getTable)
 	mux.HandleFunc("/process", data.processData)
+
 	http.ListenAndServe(":8000", mux)
 }
 
