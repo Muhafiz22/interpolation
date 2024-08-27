@@ -1,0 +1,19 @@
+<table
+	class="flex  items-center justify-center  border-black  m-auto bg-blue-200 my-2 w-fit p-5 rounded hover:p-6 fond-bold text-xl ease-in-out duration-300">
+	<tr>
+		{{range .Terms}}
+		<th>
+			Delta<sup>{{.}}</sup>
+			y
+		</th>
+		{{end}}
+	</tr>
+
+	{{range .Table}}
+	<tr class="border-2 border-black">
+		{{range . }}
+		<td class="border-x-2 border-black">{{.}}</td>
+		{{end}}
+	</tr>
+	{{end}}
+</table>

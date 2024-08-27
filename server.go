@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"html/template"
 	"net/http"
 	"strconv"
@@ -12,10 +11,11 @@ import (
 type MyData struct {
 	X           []float32   `json:"x"`
 	Y           []float32   `json:"y"`
-	MatrixTable [][]float32 `json:"matrixTable"`
+	Table       [][]float32 `json:"table"`
 	ApproxValue float32     `json:"approxValue"`
 	Err         error       `json:"err"`
 	Terms       []int       `json:"terms"`
+	IsForward   bool        `json:"isForward"`
 }
 
 var data MyData = MyData{X: []float32{}, Y: []float32{}}
@@ -93,28 +93,32 @@ func (data *MyData) getAproxValue(w http.ResponseWriter, r *http.Request) {
 
 func (data *MyData) getTable(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles("./static/table.html"))
-
+	deltaTmpl := template.Must(template.ParseFiles("./static/deta_table.html"))
 	tmpl.Execute(w, data)
+	deltaTmpl.Execute(w, data)
+
 }
 
 // TODO: add validation if len(x) == len(y)
 // add validation for data
 func (data *MyData) processData(w http.ResponseWriter, r *http.Request) {
-	tmpl := template.Must(template.New("data").Parse("{{ . }}"))
-	table, yx := calculateBackwardDiffInterpolation(data.X, data.Y, data.ApproxValue)
+	tmpl := template.Must(template.ParseFiles("./static/result.html"))
+	isForward, yx, table := checkForward(data.X, data.Y, data.ApproxValue)
 	if data.Err != nil {
 		w.Write([]byte("invalid data format"))
 	} else {
-		data.MatrixTable = table
+		data.Table = table
+		data.IsForward = isForward
+		data.ApproxValue = yx
 		data.Terms = pushIter(len(data.X))
-		tmpl.Execute(w, fmt.Sprintf("f(x) = %f", yx))
+		tmpl.Execute(w, *data)
 	}
 }
 
 func pushIter(len int) []int {
 	output := make([]int, len)
 	for idx := range output {
-		output[idx] = idx + 1
+		output[idx] = idx
 	}
 	return output
 }

@@ -11,7 +11,6 @@ func checkForward(x []float32, y []float32, xu float32) (bool, float32, [][]floa
 	var deltaY [][]float32
 	var result float32
 	if c {
-
 		deltaY, result = calculateForwardDiffInterpolation(x, y, xu)
 	} else {
 
