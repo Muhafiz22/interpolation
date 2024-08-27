@@ -53,22 +53,18 @@ func calculateForwardDiffInterpolation(x []float32, y []float32, xu float32) ([]
 }
 
 func calculateBackwardDiffInterpolation(x []float32, y []float32, xu float32) ([][]float32, float32) {
-
 	n := len(x)
 	delta_Y := make([][]float32, n)
-
 	for i := range delta_Y {
 
 		delta_Y[i] = make([]float32, n)
 		delta_Y[i][0] = y[i]
 	}
-
 	for j := 1; j < n; j++ {
 		for i := n - 1; i >= j; i-- {
 			delta_Y[i][j] = delta_Y[i][j-1] - delta_Y[i-1][j-1]
 		}
 	}
-
 	result := y[n-1]
 	v := (xu - x[n-1]) / (x[1] - x[0])
 	var vproduct float32 = 1.0
