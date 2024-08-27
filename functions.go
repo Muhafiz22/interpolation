@@ -5,8 +5,19 @@ import (
 	"math"
 )
 
-func checkForward(x []float32, xu float32) bool {
-	return xu <= x[int(math.Abs(float64(len(x)/2)))]
+func checkForward(x []float32, y []float32, xu float32) (bool, float32, [][]float32) {
+	c := xu <= x[int(math.Abs(float64(len(x)/2)))]
+
+	var deltaY [][]float32
+	var result float32
+	if c {
+
+		deltaY, result = calculateForwardDiffInterpolation(x, y, xu)
+	} else {
+
+		deltaY, result = calculateBackwardDiffInterpolation(x, y, xu)
+	}
+	return c, result, deltaY
 }
 
 func calculateForwardDiffInterpolation(x []float32, y []float32, xu float32) ([][]float32, float32) {
@@ -60,7 +71,6 @@ func calculateBackwardDiffInterpolation(x []float32, y []float32, xu float32) ([
 
 	result := y[n-1]
 	v := (xu - x[n-1]) / (x[1] - x[0])
-	fmt.Println("V:", float64(v))
 	var vproduct float32 = 1.0
 	for i := 0; i < n-1; i++ {
 

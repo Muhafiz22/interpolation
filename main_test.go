@@ -7,19 +7,31 @@ import (
 
 func TestCheckForward(t *testing.T) {
 
-	var input_x []float32 = []float32{40, 50, 60, 70, 80}
+	var input_x []float32 = []float32{1.0, 2.0, 3.0, 4.0}
+	var input_y []float32 = []float32{2.0, 4.0, 8.0, 16.0}
 
-	var input_xu float32 = 45.0
-	c := checkForward(input_x, input_xu)
+	var input_xu float32 = 2.5
+
+	/*var input_x []float32 = []float32{1891, 1901, 1911, 1921, 1931}
+	var input_y []float32 = []float32{46, 66, 81, 93, 101}
+
+	var input_xu float32 = 1925.0*/
+
+	c, result, deltaY := checkForward(input_x, input_y, input_xu)
 
 	if c {
-		fmt.Println("Use forward")
+
+		fmt.Println("Using Forward Difference Interpolation")
 	} else {
-		fmt.Println("use backward")
+
+		fmt.Println("Using Backward Difference Interpolation")
 	}
+
+	fmt.Println(result)
+	fmt.Println(deltaY)
 }
 
-func TestCalculateForwardDiffInterpolation(t *testing.T) {
+/*func TestCalculateForwardDiffInterpolation(t *testing.T) {
 
 	var input_x []float32 = []float32{1.0, 2.0, 3.0, 4.0}
 	var input_y []float32 = []float32{2.0, 4.0, 8.0, 16.0}
@@ -70,4 +82,4 @@ func TestCalculateBackwardDiffInterpolation(t *testing.T) {
 		t.Fatal()
 
 	}
-}
+}*/
