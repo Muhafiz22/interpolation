@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"numanalysis/functions"
 	"testing"
 )
 
@@ -17,7 +18,7 @@ func TestCheckForward(t *testing.T) {
 
 	var input_xu float32 = 1925.0*/
 
-	c, result, deltaY := checkForward(input_x, input_y, input_xu)
+	c, result, deltaY := functions.CheckForward(input_x, input_y, input_xu)
 
 	if c {
 

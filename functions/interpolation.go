@@ -1,25 +1,25 @@
-package main
+package functions
 
 import (
 	"fmt"
 	"math"
 )
 
-func checkForward(x []float32, y []float32, xu float32) (bool, float32, [][]float32) {
+func CheckForward(x []float32, y []float32, xu float32) (bool, float32, [][]float32) {
 	c := xu <= x[int(math.Abs(float64(len(x)/2)))]
 
 	var deltaY [][]float32
 	var result float32
 	if c {
-		deltaY, result = calculateForwardDiffInterpolation(x, y, xu)
+		deltaY, result = CalculateForwardDiffInterpolation(x, y, xu)
 	} else {
 
-		deltaY, result = calculateBackwardDiffInterpolation(x, y, xu)
+		deltaY, result = CalculateBackwardDiffInterpolation(x, y, xu)
 	}
 	return c, result, deltaY
 }
 
-func calculateForwardDiffInterpolation(x []float32, y []float32, xu float32) ([][]float32, float32) {
+func CalculateForwardDiffInterpolation(x []float32, y []float32, xu float32) ([][]float32, float32) {
 
 	n := len(x)
 	delta_Y := make([][]float32, n)
@@ -31,7 +31,7 @@ func calculateForwardDiffInterpolation(x []float32, y []float32, xu float32) ([]
 	}
 
 	for j := 1; j < n; j++ { //iterating for diffn degree frwrd differences
-		for i := 0; i < n-j; i++ { // iterating no.of row values to be calculated for diff frwrd diff
+		for i := 0; i < n-j; i++ { // iterating no.of row values to be Calculated for diff frwrd diff
 
 			delta_Y[i][j] = delta_Y[i+1][j-1] - delta_Y[i][j-1] //Calculating higher frwd diffn
 		}
@@ -51,7 +51,7 @@ func calculateForwardDiffInterpolation(x []float32, y []float32, xu float32) ([]
 	return delta_Y, result
 }
 
-func calculateBackwardDiffInterpolation(x []float32, y []float32, xu float32) ([][]float32, float32) {
+func CalculateBackwardDiffInterpolation(x []float32, y []float32, xu float32) ([][]float32, float32) {
 	n := len(x)
 	delta_Y := make([][]float32, n)
 	for i := range delta_Y {
