@@ -4,6 +4,7 @@ import (
 	"errors"
 	"html/template"
 	"net/http"
+	"numanalysis/functions"
 	"strconv"
 	"strings"
 )
@@ -103,7 +104,7 @@ func (data *MyData) getTable(w http.ResponseWriter, r *http.Request) {
 // add validation for data
 func (data *MyData) processData(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles("./static/result.html"))
-	isForward, yx, table := checkForward(data.X, data.Y, data.ApproxValue)
+	isForward, yx, table := functions.CheckForward(data.X, data.Y, data.ApproxValue)
 	if data.Err != nil {
 		w.Write([]byte("invalid data format"))
 	} else {
