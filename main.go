@@ -1,6 +1,8 @@
 package main
 
-import "numanalysis/server"
+import (
+	"numanalysis/server"
+)
 
 func main() {
 	server.RunServer()

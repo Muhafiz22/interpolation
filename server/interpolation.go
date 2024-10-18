@@ -24,7 +24,6 @@ var data MyData = MyData{X: []float32{}, Y: []float32{}}
 
 func RunServer() {
 	mux := http.NewServeMux()
-
 	mux.HandleFunc("/", data.index)
 	mux.HandleFunc("/validate-x", data.getXValues)
 	mux.HandleFunc("/validate-y", data.getYValues)
